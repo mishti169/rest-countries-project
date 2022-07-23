@@ -9,15 +9,16 @@ class App extends Component {
     details: [],
     inputVal: "",
   };
+  countryData = [];
 
   onChange = (e) => {
     this.setState({ inputVal: e.target.value });
+    console.log(e.target.value);
 
-    const countries = this.state.details.filter((currItem) => {
-      const name = currItem.name.common;
-      // const searchVal = e.target.value.toLowerCase();
-      // const currName = currItem.name.toLowerCase();
-      return name.includes(e.target.value);
+    const countries = this.countryData.filter((currItem) => {
+      const searchVal = e.target.value.toLowerCase();
+      const currName = currItem.name.common.toLowerCase();
+      return currName.includes(searchVal);
     });
     return this.setState({ details: countries });
   };
@@ -25,6 +26,7 @@ class App extends Component {
   getCountryData = async () => {
     const { data } = await axios.get("https://restcountries.com/v3.1/all");
     this.setState({ details: data });
+    this.countryData = data;
   };
 
   componentDidMount() {
